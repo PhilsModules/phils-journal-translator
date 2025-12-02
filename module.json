@@ -1,0 +1,44 @@
+{
+    "id": "phils-journal-translator",
+    "title": "Phils Journal Translator",
+    "version": "1.0.0",
+    "description": "AI Translation Assistant for Foundry VTT. Supports Gemini, ChatGPT, Claude, Copilot, and Perplexity.",
+    "authors": [
+        {
+            "name": "Phil",
+            "url": "https://github.com/weylen86",
+            "discord": ""
+        }
+    ],
+    "url": "https://github.com/weylen86/phils-journal-translator",
+    "manifest": "https://github.com/weylen86/phils-journal-translator/releases/latest/download/module.json",
+    "download": "https://github.com/weylen86/phils-journal-translator/releases/download/v1.0.0/module.zip",
+    "compatibility": {
+        "minimum": "13",
+        "verified": "13"
+    },
+    "relationships": {
+        "systems": [],
+        "requires": []
+    },
+    "esmodules": [
+        "scripts/main.js",
+        "scripts/TranslationApp.js",
+        "scripts/TranslationLogic.js"
+    ],
+    "styles": [],
+    "languages": [
+        {
+            "lang": "en",
+            "name": "English",
+            "path": "languages/en.json"
+        },
+        {
+            "lang": "de",
+            "name": "Deutsch",
+            "path": "languages/de.json"
+        }
+    ],
+    "license": "",
+    "readme": ""
+}
