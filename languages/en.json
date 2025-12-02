@@ -46,7 +46,10 @@
             "WarnGlossaryNoText": "AI Glossary has no text page.",
             "InfoTermsAdded": "Added {count} new terms to AI Glossary.",
             "InfoNoNewTerms": "No new unique terms to add.",
-            "WarnPageLimit": "Warning: You have selected more than 10 pages. The prompt might become too long for the AI. Please select fewer pages or use 'Next Batch'."
+            "WarnPageLimit": "Warning: You have selected more than 10 pages. The prompt might become too long for the AI. Please select fewer pages or use 'Next Batch'.",
+            "WarnNoJournalsOwned": "No Journals found that you own.",
+            "WarnNoPermission": "You do not have permission to translate this Journal Entry.",
+            "ErrorNoPermission": "You do not have permission to translate this Journal Entry."
         },
         "Prompts": {
             "TranslateWithGlossary": [

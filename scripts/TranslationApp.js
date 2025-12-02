@@ -64,6 +64,10 @@ export class TranslationAssistant extends FormApplication {
                     }
 
                     if (doc) {
+                        if (!doc.testUserPermission(game.user, "OWNER")) {
+                            ui.notifications.warn(loc('WarnNoPermission') || "You do not have permission to translate this Journal Entry.");
+                            return;
+                        }
                         html.closest('.app').find('.close').click(); // Close picker
                         new TranslationDialog(doc).render(true); // Open actual tool
                     } else {
@@ -80,8 +84,15 @@ export class TranslationAssistant extends FormApplication {
 
                     let options = "";
                     journals.forEach(j => {
-                        options += `<option value="${j.id}">${j.name}</option>`;
+                        if (j.testUserPermission(game.user, "OWNER")) {
+                            options += `<option value="${j.id}">${j.name}</option>`;
+                        }
                     });
+
+                    if (options === "") {
+                        ui.notifications.warn(loc('WarnNoJournalsOwned') || "No Journals found that you own.");
+                        return;
+                    }
 
                     const selectContent = `
                     <div class="form-group">
@@ -119,6 +130,10 @@ export class TranslationDialog {
     }
 
     render(force) {
+        if (!this.doc.testUserPermission(game.user, "OWNER")) {
+            ui.notifications.error(loc('ErrorNoPermission') || "You do not have permission to translate this Journal Entry.");
+            return;
+        }
         this.startGeminiDialog(this.doc);
     }
 

@@ -46,7 +46,10 @@
             "WarnGlossaryNoText": "AI Glossary hat keine Text-Seite.",
             "InfoTermsAdded": "{count} neue Begriffe zum AI Glossary hinzugefügt.",
             "InfoNoNewTerms": "Keine neuen einzigartigen Begriffe hinzuzufügen.",
-            "WarnPageLimit": "Warnung: Du hast mehr als 10 Seiten ausgewählt. Der Prompt könnte zu lang für die KI werden. Bitte wähle weniger Seiten oder nutze 'Nächster Batch'."
+            "WarnPageLimit": "Warnung: Du hast mehr als 10 Seiten ausgewählt. Der Prompt könnte zu lang für die KI werden. Bitte wähle weniger Seiten oder nutze 'Nächster Batch'.",
+            "WarnNoJournalsOwned": "Keine Journale gefunden, die dir gehören.",
+            "WarnNoPermission": "Du hast keine Berechtigung, dieses Journal zu übersetzen.",
+            "ErrorNoPermission": "Du hast keine Berechtigung, dieses Journal zu übersetzen."
         },
         "Prompts": {
             "TranslateWithGlossary": [
