@@ -11,13 +11,13 @@ The module acts as an intelligent "Prompt Engineer". It prepares the text from y
 
 ## 🚀 Features
 
-*   **No API Costs:** Works with the free web versions of Gemini, ChatGPT, & Co.
-*   **Batch Translation:** Translate multiple pages at once.
-*   **Glossary Support:** Automatically generates a glossary of names and terms to ensure consistent translation across pages.
-*   **Auto-Sort Glossary:** Automatically sorts glossary terms alphabetically for better organization.
-*   **Smart Paste:** You can paste the full AI response text. The module automatically finds and extracts the JSON code block.
-*   **Page Limit Warning:** Warns you if you select too many pages to prevent AI context limits.
-*   **Context-Aware:** Preserves HTML formatting and links.
+* **No API Costs:** Works with the free web versions of Gemini, ChatGPT, & Co.
+* **Batch Translation:** Translate multiple pages at once.
+* **Glossary Support:** Automatically generates a glossary of names and terms to ensure consistent translation across pages.
+* **Auto-Sort Glossary:** Automatically sorts glossary terms alphabetically for better organization.
+* **Smart Paste:** You can paste the full AI response text. The module automatically finds and extracts the JSON code block.
+* **Page Limit Warning:** Warns you if you select too many pages to prevent AI context limits.
+* **Context-Aware:** Preserves HTML formatting and links.
 
 ## 📦 Installation
 
@@ -26,7 +26,7 @@ The module acts as an intelligent "Prompt Engineer". It prepares the text from y
 3.  Click **Install Module**.
 4.  Paste the following **Manifest URL** into the field:
     ```
-    https://github.com/weylen86/phils-journal-translator/releases/latest/download/module.json
+    [https://github.com/PhilsModules/phils-journal-translator/releases/latest/download/module.json](https://github.com/PhilsModules/phils-journal-translator/releases/latest/download/module.json)
     ```
 5.  Click **Install**.
 
@@ -36,9 +36,9 @@ The module acts as an intelligent "Prompt Engineer". It prepares the text from y
 Go to the **Journal Directory** sidebar. You will find a **"AI Translation Assistant"** button in the header.
 
 ### 2. Select Content
-*   **Select Journal:** Choose the Journal you want to translate.
-*   **Select Pages:** Pick specific pages or use the "Batch" feature (batch size customizable in settings).
-*   **Glossary:** Optionally generate a glossary first to keep names consistent.
+* **Select Journal:** Choose the Journal you want to translate.
+* **Select Pages:** Pick specific pages or use the "Batch" feature (batch size customizable in settings).
+* **Glossary:** Optionally generate a glossary first to keep names consistent.
 
 ### 3. Copy & Paste Workflow
 1.  The module generates an optimized prompt.
@@ -61,13 +61,13 @@ Das Modul arbeitet als intelligenter "Prompt-Engineer". Es bereitet deine Journa
 
 ## 🚀 Funktionen
 
-*   **Keine API-Kosten:** Funktioniert mit den kostenlosen Web-Versionen von Gemini, ChatGPT & Co.
-*   **Batch-Übersetzung:** Übersetze mehrere Seiten auf einmal.
-*   **Glossar-Support:** Erstellt automatisch ein Glossar für Namen und Begriffe, damit die Übersetzung konsistent bleibt.
-*   **Automatisches Sortieren:** Sortiert Glossar-Begriffe automatisch alphabetisch.
-*   **Smart Paste:** Du kannst die ganze Antwort der KI einfügen. Das Modul filtert den Code automatisch heraus.
-*   **Seiten-Limit Warnung:** Warnt dich, wenn du zu viele Seiten auswählst, um KI-Fehler zu vermeiden.
-*   **Formatierung:** Behält HTML-Formatierungen und Links bei.
+* **Keine API-Kosten:** Funktioniert mit den kostenlosen Web-Versionen von Gemini, ChatGPT & Co.
+* **Batch-Übersetzung:** Übersetze mehrere Seiten auf einmal.
+* **Glossar-Support:** Erstellt automatisch ein Glossar für Namen und Begriffe, damit die Übersetzung konsistent bleibt.
+* **Automatisches Sortieren:** Sortiert Glossar-Begriffe automatisch alphabetisch.
+* **Smart Paste:** Du kannst die ganze Antwort der KI einfügen. Das Modul filtert den Code automatisch heraus.
+* **Seiten-Limit Warnung:** Warnt dich, wenn du zu viele Seiten auswählst, um KI-Fehler zu vermeiden.
+* **Formatierung:** Behält HTML-Formatierungen und Links bei.
 
 ## 📦 Installation
 
@@ -76,7 +76,7 @@ Das Modul arbeitet als intelligenter "Prompt-Engineer". Es bereitet deine Journa
 3.  Klicke auf **Install Module**.
 4.  Füge die folgende **Manifest URL** unten ein:
     ```
-    https://github.com/weylen86/phils-journal-translator/releases/latest/download/module.json
+    [https://github.com/PhilsModules/phils-journal-translator/releases/latest/download/module.json](https://github.com/PhilsModules/phils-journal-translator/releases/latest/download/module.json)
     ```
 5.  Klicke auf **Install**.
 
@@ -86,9 +86,9 @@ Das Modul arbeitet als intelligenter "Prompt-Engineer". Es bereitet deine Journa
 Gehe zum **Journal Directory** (Seitenleiste). Dort findest du oben den Button **"AI Translation Assistant"**.
 
 ### 2. Inhalt wählen
-*   **Journal wählen:** Wähle das Journal aus, das übersetzt werden soll.
-*   **Seiten wählen:** Wähle einzelne Seiten oder nutze die "Batch"-Funktion (Batch-Größe in den Einstellungen anpassbar).
-*   **Glossar:** Erstelle optional zuerst ein Glossar, damit Eigennamen korrekt bleiben.
+* **Journal wählen:** Wähle das Journal aus, das übersetzt werden soll.
+* **Seiten wählen:** Wähle einzelne Seiten oder nutze die "Batch"-Funktion (Batch-Größe in den Einstellungen anpassbar).
+* **Glossar:** Erstelle optional zuerst ein Glossar, damit Eigennamen korrekt bleiben.
 
 ### 3. Workflow
 1.  Das Modul generiert einen optimierten Prompt -> **"Prompt kopieren"**.
@@ -99,14 +99,14 @@ Gehe zum **Journal Directory** (Seitenleiste). Dort findest du oben den Button *
 ---
 
 ## ⚙️ Einstellungen
-*   **AI Provider:** Wähle deinen bevorzugten KI-Dienst (Gemini, ChatGPT, etc.).
-*   **Game System:** Wähle dein Spielsystem (z.B. Pathfinder 2e) für besseren Kontext.
-*   **Batch Size:** Lege fest, wie viele Seiten gleichzeitig übersetzt werden sollen.
+* **AI Provider:** Wähle deinen bevorzugten KI-Dienst (Gemini, ChatGPT, etc.).
+* **Game System:** Wähle dein Spielsystem (z.B. Pathfinder 2e) für besseren Kontext.
+* **Batch Size:** Lege fest, wie viele Seiten gleichzeitig übersetzt werden sollen.
 
 ---
 
 ## 👨‍💻 Author
-*   **Phil** (GitHub: [weylen86](https://github.com/weylen86))
+* **Phil** (GitHub: [PhilsModules](https://github.com/PhilsModules))
 
 ## 📄 License
 This module is licensed under the [GPL-3.0 License](LICENSE).
