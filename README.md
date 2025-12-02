@@ -26,7 +26,7 @@ The module acts as an intelligent "Prompt Engineer". It prepares the text from y
 3.  Click **Install Module**.
 4.  Paste the following **Manifest URL** into the field:
     ```
-    [https://github.com/PhilsModules/phils-journal-translator/releases/latest/download/module.json](https://github.com/PhilsModules/phils-journal-translator/releases/latest/download/module.json)
+    https://github.com/PhilsModules/phils-journal-translator/releases/latest/download/module.json
     ```
 5.  Click **Install**.
 
@@ -76,7 +76,7 @@ Das Modul arbeitet als intelligenter "Prompt-Engineer". Es bereitet deine Journa
 3.  Klicke auf **Install Module**.
 4.  Füge die folgende **Manifest URL** unten ein:
     ```
-    [https://github.com/PhilsModules/phils-journal-translator/releases/latest/download/module.json](https://github.com/PhilsModules/phils-journal-translator/releases/latest/download/module.json)
+    https://github.com/PhilsModules/phils-journal-translator/releases/latest/download/module.json
     ```
 5.  Klicke auf **Install**.
 
@@ -110,3 +110,4 @@ Gehe zum **Journal Directory** (Seitenleiste). Dort findest du oben den Button *
 
 ## 📄 License
 This module is licensed under the [GPL-3.0 License](LICENSE).
+
