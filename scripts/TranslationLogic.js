@@ -10,13 +10,13 @@ export function formatString(str, data = {}) {
 }
 
 export const loc = (key, data = {}) => {
-    const i18nKey = `AIASSISTANT.UI.${key}`;
+    const i18nKey = `PHILS_JOURNAL_TRANSLATOR.UI.${key}`;
     if (game.i18n.has(i18nKey)) return game.i18n.format(i18nKey, data);
     return key;
 };
 
 export function resolvePrompt(key, data) {
-    const i18nKey = `AIASSISTANT.Prompts.${key}`;
+    const i18nKey = `PHILS_JOURNAL_TRANSLATOR.Prompts.${key}`;
     let rawText = foundry.utils.getProperty(game.i18n.translations, i18nKey);
     if (!rawText && game.i18n._fallback) {
         rawText = foundry.utils.getProperty(game.i18n._fallback, i18nKey);

@@ -35,7 +35,7 @@ Hooks.on('renderJournalDirectory', async (app, html) => {
     const button = document.createElement("button");
     button.type = "button";
     button.classList.add("ai-translation-btn");
-    button.innerHTML = `<i class="fas fa-language"></i> ${game.i18n.localize("AIASSISTANT.UI.Title")}`;
+    button.innerHTML = `<i class="fas fa-language"></i> ${game.i18n.localize("PHILS_JOURNAL_TRANSLATOR.UI.Title")}`;
 
     // Add some basic styling to the button to make it look good
     // Removed custom styling to match Foundry VTT theme

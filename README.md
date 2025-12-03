@@ -3,7 +3,7 @@
 ![Foundry v13 Compatible](https://img.shields.io/badge/Foundry-v13-brightgreen)
 ![Foundry v12 Compatible](https://img.shields.io/badge/Foundry-v12-green)
 ![License](https://img.shields.io/badge/License-GPLv3-blue)
-![Version](https://img.shields.io/badge/Version-1.0.1-orange)
+![Version](https://img.shields.io/badge/Version-1.0.0-orange)
 [![Patreon](https://img.shields.io/badge/Support-Patreon-ff424d?logo=patreon)](https://www.patreon.com/PhilsModules)
 
 **Phil's Journal Translator** allows you to translate entire Journals in Foundry VTT using modern AI (Google Gemini, ChatGPT, Claude, Copilot, Perplexity).
@@ -17,7 +17,6 @@ The module acts as an intelligent "Prompt Engineer". It prepares the text from y
 * **Batch Translation:** Translate multiple pages at once.
 * **Glossary Support:** Automatically generates a glossary of names and terms to ensure consistent translation across pages.
 * **Smart Paste:** Automatically finds and extracts the JSON code block from the AI response.
-* **Permission Control:** Only users with ownership of a journal can translate it.
 * **Context-Aware:** Preserves HTML formatting and links safely.
 
 ## 📦 Installation
@@ -53,7 +52,6 @@ Phil's Journal Translator verbindet deine Foundry VTT Welt mit der Power moderne
 * **Batch-Übersetzung:** Mehrere Seiten auf einmal übersetzen.
 * **Glossar-Support:** Hält Namen und Begriffe konsistent.
 * **Smart Paste:** Filtert automatisch den Code aus der KI-Antwort.
-* **Rechte-Management:** Nur Besitzer eines Journals können es übersetzen.
 * **Formatierung:** HTML und Links bleiben erhalten.
 
 ## 📦 Installation
