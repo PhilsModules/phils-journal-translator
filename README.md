@@ -18,7 +18,6 @@ The module acts as an intelligent "Prompt Engineer". It prepares the text from y
 * **Glossary Support:** Automatically generates a glossary of names and terms to ensure consistent translation across pages.
 * **Smart Paste:** Automatically finds and extracts the JSON code block from the AI response.
 * **Context-Aware:** Preserves HTML formatting and links safely.
-* **Safety First:** Automatically creates a **Backup** (Copy) of your Journal before applying changes.
 
 ## 📦 Installation
 
@@ -41,7 +40,7 @@ The module acts as an intelligent "Prompt Engineer". It prepares the text from y
 
 ---
 
-# Deutsche Anleitung
+# 🇩🇪 Deutsche Beschreibung
 
 **Übersetze deine Foundry VTT Journale kostenlos mit KI.**
 
@@ -49,33 +48,23 @@ Phil's Journal Translator verbindet deine Foundry VTT Welt mit der Power moderne
 
 ## 🚀 Funktionen
 
-* **Kostenlos:** Nutze die Web-Interfaces der KI-Anbieter (keine API-Kosten).
-* **Batch-Übersetzung:** Übersetze mehrere Seiten oder ganze Journale auf einmal.
-* **Glossar-Support:** Erstellt automatisch ein Glossar für Namen und Begriffe, damit die Übersetzung über alle Seiten hinweg konsistent bleibt.
-* **Smart Paste:** Du kannst die gesamte Antwort der KI kopieren. Das Modul filtert automatisch den JSON-Code heraus.
-* **Sicher:** HTML-Formatierungen und Links bleiben erhalten.
-* **Safety First:** Erstellt automatisch ein **Backup** (Kopie) deines Journals, bevor Änderungen angewendet werden.
+* **Kostenlos:** Nutze die Web-Interfaces der KI-Anbieter.
+* **Batch-Übersetzung:** Mehrere Seiten auf einmal übersetzen.
+* **Glossar-Support:** Hält Namen und Begriffe konsistent.
+* **Smart Paste:** Filtert automatisch den Code aus der KI-Antwort.
+* **Formatierung:** HTML und Links bleiben erhalten.
 
 ## 📦 Installation
-
-1.  Öffne Foundry VTT.
-2.  Gehe zum Reiter **Add-on Modules**.
-3.  Klicke auf **Install Module**.
-4.  Füge die folgende **Manifest URL** unten ein:
-    ```
+Nutze diese Manifest URL:
+ ```
     https://github.com/PhilsModules/phils-journal-translator/releases/latest/download/module.json
-    ```
-5.  Klicke auf **Install**.
+ ```
 
-## 📖 Bedienung
+## 👨‍💻 Author
+* **Phil** (GitHub: [PhilsModules](https://github.com/PhilsModules))
 
-1.  **Translator öffnen:** Gehe in das Journal-Verzeichnis und klicke auf den **"KI Übersetzungs-Assistent"** Button.
-2.  **Inhalt wählen:** Wähle das Journal und die Seiten aus, die du übersetzen möchtest.
-3.  **Prompt generieren:** Das Modul erstellt einen optimierten Befehl. Klicke auf **"Prompt kopieren"**.
-4.  **KI fragen:** Füge den Text bei Gemini/ChatGPT ein und kopiere die **gesamte Antwort**.
-5.  **Update:** Klicke in Foundry auf **"Einfügen"** und dann auf **"Journal aktualisieren"**.
-
----
+## 📄 License
+This module is licensed under the [GPL-3.0 License](LICENSE).
 
 ## ❤️ Support the Development
 If you enjoy this module and want to support open-source development for Foundry VTT, check out my Patreon!
@@ -85,6 +74,9 @@ Gefällt dir das Modul? Unterstütze die Weiterentwicklung auf Patreon!
 [**Become a Patron**](https://www.patreon.com/PhilsModules)
 
 ---
-
-**Made with ❤️ for the Foundry VTT Community by [PhilsModules](https://github.com/PhilsModules)**
-*Licensed under GPL-3.0*
+<div align="center">
+    <p>Made with ❤️ for the Foundry VTT Community</p>
+    <a href="https://www.patreon.com/PhilsModules">
+        <img src="https://c5.patreon.com/external/logo/become_a_patron_button.png" alt="Become a Patron" />
+    </a>
+</div>
