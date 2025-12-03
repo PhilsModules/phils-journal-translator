@@ -18,6 +18,7 @@ The module acts as an intelligent "Prompt Engineer". It prepares the text from y
 * **Glossary Support:** Automatically generates a glossary of names and terms to ensure consistent translation across pages.
 * **Smart Paste:** Automatically finds and extracts the JSON code block from the AI response.
 * **Context-Aware:** Preserves HTML formatting and links safely.
+* **Safety First:** Automatically creates a **Backup** (Copy) of your Journal before applying changes.
 
 ## 📦 Installation
 
@@ -53,6 +54,7 @@ Phil's Journal Translator verbindet deine Foundry VTT Welt mit der Power moderne
 * **Glossar-Support:** Erstellt automatisch ein Glossar für Namen und Begriffe, damit die Übersetzung über alle Seiten hinweg konsistent bleibt.
 * **Smart Paste:** Du kannst die gesamte Antwort der KI kopieren. Das Modul filtert automatisch den JSON-Code heraus.
 * **Sicher:** HTML-Formatierungen und Links bleiben erhalten.
+* **Safety First:** Erstellt automatisch ein **Backup** (Kopie) deines Journals, bevor Änderungen angewendet werden.
 
 ## 📦 Installation
 
