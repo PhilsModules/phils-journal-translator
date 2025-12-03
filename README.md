@@ -3,7 +3,7 @@
 ![Foundry v13 Compatible](https://img.shields.io/badge/Foundry-v13-brightgreen)
 ![Foundry v12 Compatible](https://img.shields.io/badge/Foundry-v12-green)
 ![License](https://img.shields.io/badge/License-GPLv3-blue)
-![Version](https://img.shields.io/badge/Version-1.0.0-orange)
+![Version](https://img.shields.io/badge/Version-1.0.2-orange)
 [![Patreon](https://img.shields.io/badge/Support-Patreon-ff424d?logo=patreon)](https://www.patreon.com/PhilsModules)
 
 **Phil's Journal Translator** allows you to translate entire Journals in Foundry VTT using modern AI (Google Gemini, ChatGPT, Claude, Copilot, Perplexity).
@@ -40,7 +40,7 @@ The module acts as an intelligent "Prompt Engineer". It prepares the text from y
 
 ---
 
-# 🇩🇪 Deutsche Beschreibung
+# Deutsche Anleitung
 
 **Übersetze deine Foundry VTT Journale kostenlos mit KI.**
 
@@ -48,17 +48,32 @@ Phil's Journal Translator verbindet deine Foundry VTT Welt mit der Power moderne
 
 ## 🚀 Funktionen
 
-* **Kostenlos:** Nutze die Web-Interfaces der KI-Anbieter.
-* **Batch-Übersetzung:** Mehrere Seiten auf einmal übersetzen.
-* **Glossar-Support:** Hält Namen und Begriffe konsistent.
-* **Smart Paste:** Filtert automatisch den Code aus der KI-Antwort.
-* **Formatierung:** HTML und Links bleiben erhalten.
+* **Kostenlos:** Nutze die Web-Interfaces der KI-Anbieter (keine API-Kosten).
+* **Batch-Übersetzung:** Übersetze mehrere Seiten oder ganze Journale auf einmal.
+* **Glossar-Support:** Erstellt automatisch ein Glossar für Namen und Begriffe, damit die Übersetzung über alle Seiten hinweg konsistent bleibt.
+* **Smart Paste:** Du kannst die gesamte Antwort der KI kopieren. Das Modul filtert automatisch den JSON-Code heraus.
+* **Sicher:** HTML-Formatierungen und Links bleiben erhalten.
 
 ## 📦 Installation
-Nutze diese Manifest URL:
- ```
+
+1.  Öffne Foundry VTT.
+2.  Gehe zum Reiter **Add-on Modules**.
+3.  Klicke auf **Install Module**.
+4.  Füge die folgende **Manifest URL** unten ein:
+    ```
     https://github.com/PhilsModules/phils-journal-translator/releases/latest/download/module.json
- ```
+    ```
+5.  Klicke auf **Install**.
+
+## 📖 Bedienung
+
+1.  **Translator öffnen:** Gehe in das Journal-Verzeichnis und klicke auf den **"KI Übersetzungs-Assistent"** Button.
+2.  **Inhalt wählen:** Wähle das Journal und die Seiten aus, die du übersetzen möchtest.
+3.  **Prompt generieren:** Das Modul erstellt einen optimierten Befehl. Klicke auf **"Prompt kopieren"**.
+4.  **KI fragen:** Füge den Text bei Gemini/ChatGPT ein und kopiere die **gesamte Antwort**.
+5.  **Update:** Klicke in Foundry auf **"Einfügen"** und dann auf **"Journal aktualisieren"**.
+
+---
 
 ## ❤️ Support the Development
 If you enjoy this module and want to support open-source development for Foundry VTT, check out my Patreon!
