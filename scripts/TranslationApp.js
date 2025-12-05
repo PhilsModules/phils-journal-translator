@@ -1,4 +1,6 @@
-import { loc, resolvePrompt, getCleanData, getContextDescription, getGlossaryContent, processUpdate, addToGlossary, MODULE_ID } from './TranslationLogic.js';
+import { loc, resolvePrompt, getCleanData, getContextDescription, getGlossaryContent, processUpdate, addToGlossary, MODULE_ID, injectOfficialTranslations } from './TranslationLogic.js';
+
+const { FormApplication, Dialog, JournalEntry, JournalEntryPage } = /** @type {any} */ (globalThis);
 
 const THEMES = {
     gemini: { url: "https://gemini.google.com/app" },
@@ -16,7 +18,7 @@ export class TranslationAssistant extends FormApplication {
     static get defaultOptions() {
         return foundry.utils.mergeObject(super.defaultOptions, {
             id: "translation-assistant",
-            title: loc('Title') || "AI Translation Assistant",
+            title: loc('Title') || "AI Journal Translator",
             template: "modules/phils-journal-translator/templates/translation-assistant.html",
             width: 500,
             height: "auto",
@@ -64,8 +66,8 @@ export class TranslationAssistant extends FormApplication {
                     }
 
                     if (doc) {
-                        if (!doc.testUserPermission(game.user, "OWNER")) {
-                            ui.notifications.warn(loc('WarnNoPermission') || "You do not have permission to translate this Journal Entry.");
+                        if (!doc.isOwner) {
+                            ui.notifications.warn(loc('WarnNoPermission') || "You do not have permission to translate this Journal (Required: Owner).");
                             return;
                         }
                         html.closest('.app').find('.close').click(); // Close picker
@@ -76,23 +78,54 @@ export class TranslationAssistant extends FormApplication {
                 });
 
                 html.find('#btn-select-journal').click(() => {
-                    const journals = game.journal.contents;
+                    const journals = globalThis.game.journal?.contents.filter(j => j.isOwner) || [];
                     if (journals.length === 0) {
-                        ui.notifications.warn(loc('WarnNoJournals') || "No Journals found.");
+                        ui.notifications.warn(loc('WarnNoJournalsOwned') || "No journals found that you own.");
                         return;
                     }
 
-                    let options = "";
-                    journals.forEach(j => {
-                        if (j.testUserPermission(game.user, "OWNER")) {
-                            options += `<option value="${j.id}">${j.name}</option>`;
-                        }
+                    // 1. Get Root Journals (no folder)
+                    const rootJournals = journals.filter(j => !j.folder).sort((a, b) => (a.sort || 0) - (b.sort || 0));
+
+                    // 2. Map Folders to Journals
+                    const folderMap = {};
+                    journals.filter(j => j.folder).forEach(j => {
+                        if (!folderMap[j.folder.id]) folderMap[j.folder.id] = [];
+                        folderMap[j.folder.id].push(j);
                     });
 
-                    if (options === "") {
-                        ui.notifications.warn(loc('WarnNoJournalsOwned') || "No Journals found that you own.");
-                        return;
+                    // 3. Sort journals within folders
+                    for (const folderId in folderMap) {
+                        folderMap[folderId].sort((a, b) => (a.sort || 0) - (b.sort || 0));
                     }
+
+                    // 4. Get sorted list of folders (respecting sidebar sort)
+                    const sortedFolders = game.folders.filter(f => f.type === "JournalEntry").sort((a, b) => (a.sort || 0) - (b.sort || 0));
+
+                    let options = "";
+
+                    // 5. Build Options
+                    // Root Journals first
+                    if (rootJournals.length > 0) {
+                        const labelUnsorted = loc('LabelUnsorted');
+                        const finalLabel = (labelUnsorted === 'LabelUnsorted') ? 'Unsorted' : labelUnsorted;
+                        options += `<optgroup label="${finalLabel}">`;
+                        rootJournals.forEach(j => {
+                            options += `<option value="${j.id}">${j.name}</option>`;
+                        });
+                        options += `</optgroup>`;
+                    }
+
+                    // Folders
+                    sortedFolders.forEach(f => {
+                        if (folderMap[f.id]) {
+                            options += `<optgroup label="${f.name}">`;
+                            folderMap[f.id].forEach(j => {
+                                options += `<option value="${j.id}">${j.name}</option>`;
+                            });
+                            options += `</optgroup>`;
+                        }
+                    });
 
                     const selectContent = `
                     <div class="form-group">
@@ -110,6 +143,10 @@ export class TranslationAssistant extends FormApplication {
                                     const id = h.find('#journal-select').val();
                                     const selectedDoc = game.journal.get(id);
                                     if (selectedDoc) {
+                                        if (!selectedDoc.isOwner) {
+                                            ui.notifications.warn(loc('WarnNoPermission') || "You do not have permission to translate this Journal (Required: Owner).");
+                                            return;
+                                        }
                                         html.closest('.app').find('.close').click(); // Close main picker
                                         new TranslationDialog(selectedDoc).render(true);
                                     }
@@ -130,10 +167,6 @@ export class TranslationDialog {
     }
 
     render(force) {
-        if (!this.doc.testUserPermission(game.user, "OWNER")) {
-            ui.notifications.error(loc('ErrorNoPermission') || "You do not have permission to translate this Journal Entry.");
-            return;
-        }
         this.startGeminiDialog(this.doc);
     }
 
@@ -202,7 +235,7 @@ export class TranslationDialog {
             </div>
         </div>`;
 
-        new Dialog({
+        const dialog = new Dialog({
             title: `Translate: ${doc.name}`,
             content: content,
             buttons: {
@@ -214,6 +247,37 @@ export class TranslationDialog {
                         const onlyNames = html.find('#only-names-check').is(':checked');
                         let selectedPageIds = [];
                         html.find('.page-selector:checked').each((i, el) => selectedPageIds.push($(el).val()));
+
+                        // Check if Glossary exists
+                        const glossaryExists = game.journal.some(j => j.name === "AI Glossary" || j.name === "AI Glossar");
+
+                        if (!glossaryExists && !onlyNames) {
+                            // Warn user and suggest creating glossary first
+                            new Dialog({
+                                title: loc('TitleNoGlossary') || "No Glossary Found",
+                                content: `<p>${loc('WarnNoGlossary') || "No 'AI Glossary' found. It is recommended to generate a glossary first to ensure consistent names."}</p>`,
+                                buttons: {
+                                    generate: {
+                                        label: loc('BtnGenGlossaryFirst') || "Generate Glossary First",
+                                        icon: '<i class="fas fa-book"></i>',
+                                        callback: () => {
+                                            // Switch to glossary mode logic
+                                            let finalUserPrompt = prompt + " [IMPORTANT: Analyze/Translate ONLY proper names, places. Ignore body text.]";
+                                            prepareGlossaryGenPrompt(doc, finalUserPrompt, systemName, false, url, selectedPageIds);
+                                        }
+                                    },
+                                    proceed: {
+                                        label: loc('BtnProceedAnyway') || "Proceed Anyway",
+                                        icon: '<i class="fas fa-arrow-right"></i>',
+                                        callback: () => {
+                                            prepareTranslatePrompt(doc, prompt, systemName, false, url, selectedPageIds);
+                                        }
+                                    }
+                                },
+                                default: "generate"
+                            }).render(true);
+                            return;
+                        }
 
                         let finalUserPrompt = prompt;
                         if (onlyNames) finalUserPrompt += " [IMPORTANT: Analyze/Translate ONLY proper names, places. Ignore body text.]";
@@ -230,11 +294,12 @@ export class TranslationDialog {
                 const warningDiv = html.find('#page-limit-warning');
                 const checkboxes = html.find('.page-selector');
 
-                function checkPageLimit() {
+                const checkPageLimit = () => {
                     const checkedCount = checkboxes.filter(':checked').length;
                     if (checkedCount > 10) warningDiv.show();
                     else warningDiv.hide();
-                }
+                    dialog.setPosition({ height: "auto" });
+                };
 
                 checkboxes.change(checkPageLimit);
 
@@ -272,18 +337,29 @@ export class TranslationDialog {
                 // Initial check
                 checkPageLimit();
             }
-        }).render(true);
+        });
+
+        dialog.render(true);
     }
 }
 
 async function prepareTranslatePrompt(doc, userPrompt, systemName, sendFull, targetUrl, selectedPages = null) {
-    const jsonString = JSON.stringify(getCleanData(doc, sendFull, selectedPages), null, 2);
-    const glossaryContent = getGlossaryContent();
+    const cleanData = getCleanData(doc, sendFull, selectedPages);
+    const { docData: translatedData, replacedTerms } = await injectOfficialTranslations(cleanData);
+    const jsonString = JSON.stringify(translatedData, null, 2);
+    // Glossary content is no longer needed in the prompt as we use inline replacements
+    const glossaryContent = "";
     let promptKey = "TranslateAndCreateGlossary";
-    if (glossaryContent && glossaryContent.length > 10) promptKey = "TranslateWithGlossary";
+    // Check if glossary exists to determine prompt key, but don't load content
+    const glossaryExists = game.journal.some(j => j.name === "AI Glossary" || j.name === "AI Glossar");
+    if (glossaryExists) promptKey = "TranslateWithGlossary";
+
+    // Replaced terms list is also no longer needed as separate list
+    let replacedTermsList = "";
 
     const defaultPrompt = loc('DefaultTranslate') || "Translate.";
-    const finalPrompt = resolvePrompt(promptKey, { systemName, jsonString, userPrompt: userPrompt || defaultPrompt, glossaryContent: glossaryContent || "" });
+    // We pass empty strings for glossaryContent and replacedTermsList as they are now inline
+    const finalPrompt = resolvePrompt(promptKey, { systemName, jsonString, userPrompt: userPrompt || defaultPrompt, glossaryContent: "", replacedTermsList: "" });
     const expectGlossaryCreation = (promptKey === "TranslateAndCreateGlossary");
     const expectGlossaryUpdate = (promptKey === "TranslateWithGlossary");
     copyAndOpen(finalPrompt, doc, true, targetUrl, expectGlossaryCreation, expectGlossaryUpdate, false);
@@ -291,9 +367,18 @@ async function prepareTranslatePrompt(doc, userPrompt, systemName, sendFull, tar
 
 async function prepareGlossaryGenPrompt(doc, userPrompt, systemName, sendFull, targetUrl, selectedPages = null) {
     const cleanData = getCleanData(doc, sendFull, selectedPages);
-    const textContent = getContextDescription(doc, cleanData);
+
+    // Inject official translations so the AI sees the "German" version of known terms
+    // and doesn't suggest them as new glossary items.
+    const { docData: translatedData, replacedTerms } = await injectOfficialTranslations(cleanData);
+
+    const textContent = getContextDescription(doc, translatedData);
+
+    // Replaced terms are inline, no list needed
+    let replacedTermsList = "";
+
     const defaultPrompt = loc('DefaultGlossary') || "Create a list of important terms.";
-    const finalPrompt = resolvePrompt("GenerateGlossary", { systemName, docDesc: textContent, userPrompt: userPrompt || defaultPrompt });
+    const finalPrompt = resolvePrompt("GenerateGlossary", { systemName, docDesc: textContent, userPrompt: userPrompt || defaultPrompt, replacedTermsList: "" });
     copyAndOpen(finalPrompt, doc, true, targetUrl, false, false, true);
 }
 
@@ -335,59 +420,91 @@ export function showResultDialog(doc, initialContent = "", errorMsg = null, expe
         <textarea name="aiResponse" style="width:100%; height: 300px;" placeholder="${placeholderText}">${initialContent}</textarea>
     </div>`;
 
-    new Dialog({
-        title: title, content: content,
-        buttons: {
-            update: {
-                label: btnLabel,
-                callback: async (html) => {
-                    const text = html.find('[name="aiResponse"]').val();
-                    if (text) {
-                        // STRICT FAILSAFE:
-                        // 1. Translation Mode: MUST NOT contain "name": "AI Glossary"
-                        if (!isGlossaryMode && (text.includes('"name": "AI Glossary"') || text.includes('"name": "AI Glossar"'))) {
-                            const errorText = loc('ErrorGlossaryInTranslation') || "Error: It looks like you pasted the Glossary JSON here. Please paste ONLY the Translation JSON.";
-                            ui.notifications.error(errorText);
-                            showResultDialog(doc, text, errorText, expectGlossaryCreation, expectGlossaryUpdate, isGlossaryMode);
-                            return;
-                        }
+    const buttons = {
+        update: {
+            label: btnLabel,
+            callback: async (html) => {
+                const text = html.find('[name="aiResponse"]').val();
+                if (text) {
+                    // STRICT FAILSAFE:
+                    // 1. Translation Mode: MUST NOT contain "name": "AI Glossary"
+                    if (!isGlossaryMode && (text.includes('"name": "AI Glossary"') || text.includes('"name": "AI Glossar"'))) {
+                        const errorText = loc('ErrorGlossaryInTranslation') || "Error: It looks like you pasted the Glossary JSON here. Please paste ONLY the Translation JSON.";
+                        ui.notifications.error(errorText);
+                        showResultDialog(doc, text, errorText, expectGlossaryCreation, expectGlossaryUpdate, isGlossaryMode);
+                        return;
+                    }
 
-                        // 2. Glossary Mode: MUST contain "name": "AI Glossary"
-                        if (isGlossaryMode && !(text.includes('"name": "AI Glossary"') || text.includes('"name": "AI Glossar"'))) {
-                            const errorText = loc('ErrorInvalidGlossaryJson') || "Error: This does not look like the Glossary JSON. Please paste the Glossary JSON block.";
-                            ui.notifications.error(errorText);
-                            showResultDialog(doc, text, errorText, expectGlossaryCreation, expectGlossaryUpdate, isGlossaryMode);
-                            return;
-                        }
+                    // 2. Glossary Mode: MUST contain "name": "AI Glossary"
+                    if (isGlossaryMode && !(text.includes('"name": "AI Glossary"') || text.includes('"name": "AI Glossar"'))) {
+                        const errorText = loc('ErrorInvalidGlossaryJson') || "Error: This does not look like the Glossary JSON. Please paste the Glossary JSON block.";
+                        ui.notifications.error(errorText);
+                        showResultDialog(doc, text, errorText, expectGlossaryCreation, expectGlossaryUpdate, isGlossaryMode);
+                        return;
+                    }
 
-                        const result = await processUpdate(doc, text);
+                    const result = await processUpdate(doc, text);
 
-                        if (typeof result === 'string') {
-                            showResultDialog(doc, text, result, expectGlossaryCreation, expectGlossaryUpdate, isGlossaryMode);
-                        } else if (result === true || result.success) {
-                            // Success
+                    if (typeof result === 'string') {
+                        showResultDialog(doc, text, result, expectGlossaryCreation, expectGlossaryUpdate, isGlossaryMode);
+                    } else if (result === true || result.success) {
+                        // Success
 
-                            // Check for new glossary items
-                            if (result.newGlossaryItems && result.newGlossaryItems.length > 0) {
-                                showGlossaryUpdateDialog(result.newGlossaryItems);
-                            }
+                        // CHAINING: If we expect a glossary update/creation, open the Glossary Dialog next
+                        // BUT ONLY if we haven't already found/processed glossary items in this step.
+                        const glossaryHandled = (result.newGlossaryItems && result.newGlossaryItems.length > 0);
+                        const willOpenGlossaryDialog = (expectGlossaryCreation || expectGlossaryUpdate) && !isGlossaryMode && !glossaryHandled;
 
-                            // CHAINING: If we expect a glossary update/creation, open the Glossary Dialog next
-                            if ((expectGlossaryCreation || expectGlossaryUpdate) && !isGlossaryMode) {
-                                setTimeout(() => {
-                                    showResultDialog(doc, "", null, false, false, true);
-                                }, 500);
-                            }
+                        if (glossaryHandled) {
+                            showGlossaryUpdateDialog(result.newGlossaryItems, doc);
+                        } else if (willOpenGlossaryDialog) {
+                            setTimeout(() => {
+                                showResultDialog(doc, "", null, false, false, true);
+                            }, 500);
+                        } else {
+                            // AUTO-NEXT-BATCH (Only if no glossary dialog is shown)
+                            checkNextBatch(doc);
                         }
                     }
                 }
             }
-        },
+        }
+    };
+
+    if (isGlossaryMode) {
+        buttons.skip = {
+            label: loc('BtnSkip') || "Skip / Next",
+            icon: '<i class="fas fa-forward"></i>',
+            callback: () => {
+                checkNextBatch(doc);
+            }
+        };
+    }
+
+    new Dialog({
+        title: title, content: content,
+        buttons: buttons,
         default: "update"
     }).render(true);
 }
 
-function showGlossaryUpdateDialog(newItems) {
+function checkNextBatch(doc) {
+    setTimeout(() => {
+        const freshDoc = game.journal.get(doc.id);
+        if (freshDoc && freshDoc.documentName === "JournalEntry") {
+            const hasMore = freshDoc.pages.some(p => !p.getFlag(MODULE_ID, 'aiProcessed'));
+            console.log(`AI Assistant | Check Next Batch: ${hasMore} (Pages: ${freshDoc.pages.size})`);
+            if (hasMore) {
+                ui.notifications.info(loc('InfoNextBatch') || "Opening next batch...");
+                setTimeout(() => {
+                    new TranslationDialog(freshDoc).render(true);
+                }, 500);
+            }
+        }
+    }, 1000); // Wait 1s for updates to propagate
+}
+
+function showGlossaryUpdateDialog(newItems, doc) {
     let itemsHtml = "<ul>";
     newItems.forEach(item => {
         itemsHtml += `<li><b>${item.original}</b> = ${item.translation}</li>`;
@@ -409,13 +526,18 @@ function showGlossaryUpdateDialog(newItems) {
                 icon: '<i class="fas fa-plus"></i>',
                 callback: async () => {
                     await addToGlossary(newItems);
+                    checkNextBatch(doc);
                 }
             },
             cancel: {
                 label: loc('BtnCancel') || "Cancel",
-                icon: '<i class="fas fa-times"></i>'
+                icon: '<i class="fas fa-times"></i>',
+                callback: () => {
+                    checkNextBatch(doc);
+                }
             }
         },
         default: "add"
     }).render(true);
 }
+

@@ -17,7 +17,7 @@ Hooks.once('init', () => {
         scope: 'world',
         config: true,
         type: String,
-        default: 'Pathfinder 2e'
+        default: 'Generic'
     });
 
     game.settings.register(MODULE_ID, 'batchSize', {
