@@ -1,10 +1,13 @@
+# Phil's Journal Translator
+
 ![Foundry v13 Compatible](https://img.shields.io/badge/Foundry-v13-brightgreen)
 ![Foundry v12 Compatible](https://img.shields.io/badge/Foundry-v12-green)
 ![License](https://img.shields.io/badge/License-GPLv3-blue)
 ![Version](https://img.shields.io/badge/Version-1.1.0-orange)
-[![Patreon](https://img.shields.io/badge/Support-Patreon-ff424d?logo=patreon)](https://www.patreon.com/PhilsModules)
 
-# Phil's Journal Translator
+
+<a href="Updates.md"><img src="https://img.shields.io/badge/CHECK-Changelog-blue" style="height: 25px;"></a>
+<a href="https://www.patreon.com/PhilsModules"><img src="https://img.shields.io/badge/SUPPORT-Patreon-ff424d?logo=patreon" style="height: 25px;"></a>
 
 **Automated AI Translation for Foundry VTT Journals (ChatGPT, Claude, Gemini, etc.)**
 
